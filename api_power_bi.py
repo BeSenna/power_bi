@@ -27,17 +27,17 @@ url_activity_events = "https://api.powerbi.com/v1.0/myorg/admin/activityevents?s
 # Configuração dos parâmetros da API
 # --------------------------------------------------
 
-client_id='c92ef17d-f232-4575-9c90-dd0647269092'
-username = 'bernardo.senna@sennaconsultantservice.onmicrosoft.com' #somente é necessário caso não esteja utilizando o acesso via aplicativo
-password = 'Showtime@33949418' #somente é necessário caso não esteja utilizando o acesso via aplicativo
-authority_url = 'https://login.microsoftonline.com/617383e6-fe4c-4a06-a524-a43164d10756' #preencher com o tenand id do aplicativo azure
+client_id=''
+username = '' #somente é necessário caso não esteja utilizando o acesso via aplicativo
+password = '' #somente é necessário caso não esteja utilizando o acesso via aplicativo
+authority_url = 'https://login.microsoftonline.com/seu-tenant-id-aqui' #preencher com o tenand id do aplicativo azure
 scope1 = ["https://analysis.windows.net/powerbi/api/.default"]
 scope2 = "https://analysis.windows.net/powerbi/api/.default"
 # ==================================================
 url = url_groups #preencher com a url da api que deseja utilizar
 # ==================================================
-tenant_id = '617383e6-fe4c-4a06-a524-a43164d10756'
-client_secret = 'C688Q~-MSxqHD4oG9BGRbJWX4HNsoLDDQEuAxc55'
+tenant_id = ''
+client_secret = ''
 
 # --------------------------------------------------
 # Lib MSAL para buscar o token
@@ -100,3 +100,5 @@ else:
         for element in resposta2:
             for row in element:
                 writer.writerow(element)
+
+#test
