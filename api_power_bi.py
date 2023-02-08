@@ -1,6 +1,7 @@
 import msal
 import requests
 import json
+import csv
 from azure.identity import ClientSecretCredential, InteractiveBrowserCredential, UsernamePasswordCredential
 from datetime import datetime, timedelta
 
@@ -9,10 +10,10 @@ from datetime import datetime, timedelta
 # URL das APIs
 # --------------------------------------------------
 
-url_groups = 'https://api.powerbi.com/v1.0/myorg/admin/groups?%24top=1000'
-url_reports = 'https://api.powerbi.com/v1.0/myorg/admin/groups?$expand=dashboards'
-url_datasets = 'https://api.powerbi.com/v1.0/myorg/admin/groups?$expand=datasets'
-url_users = 'https://api.powerbi.com/v1.0/myorg/admin/groups?$expand=users'
+url_groups = 'https://api.powerbi.com/v1.0/myorg/admin/groups?$top=1000'
+url_reports = 'https://api.powerbi.com/v1.0/myorg/admin/groups?$expand=dashboards&$top=1000'
+url_datasets = 'https://api.powerbi.com/v1.0/myorg/admin/groups?$expand=datasets&$top=1000'
+url_users = 'https://api.powerbi.com/v1.0/myorg/admin/groups?$expand=users&$top=1000'
 
 
 #  Activity Events
@@ -33,7 +34,7 @@ authority_url = 'https://login.microsoftonline.com/617383e6-fe4c-4a06-a524-a4316
 scope1 = ["https://analysis.windows.net/powerbi/api/.default"]
 scope2 = "https://analysis.windows.net/powerbi/api/.default"
 # ==================================================
-url = url_activity_events #preencher com a url da api que deseja utilizar
+url = url_groups #preencher com a url da api que deseja utilizar
 # ==================================================
 tenant_id = '617383e6-fe4c-4a06-a524-a43164d10756'
 client_secret = 'C688Q~-MSxqHD4oG9BGRbJWX4HNsoLDDQEuAxc55'
@@ -42,9 +43,11 @@ client_secret = 'C688Q~-MSxqHD4oG9BGRbJWX4HNsoLDDQEuAxc55'
 # Lib MSAL para buscar o token
 # --------------------------------------------------
 
-# Método 1: Utilizando usuário e senha
+# Método 1: Utilizando usuário e senha (não funciona com MFA)
 app = msal.PublicClientApplication(client_id, authority=authority_url)
 resultado1 = app.acquire_token_by_username_password(username=username,password=password,scopes=scope1)
+
+
 
 #Método 2: Utilizando as credenciais do aplicativo azure
 client_secret_credential_class = ClientSecretCredential(tenant_id=tenant_id, client_id=client_id, client_secret=client_secret)
@@ -75,14 +78,25 @@ if url == url_activity_events:
             api_out_cont = requests.get(url=continuation_token, headers=header)
             continuation_token = api_out_cont.json()['continuationUri']
             resultado = api_out_cont.json()['activityEventEntities']
-            resposta_api.append(resultado)
+            resposta_api.expand(resultado)
             resultado.clear()
-    with open( 'activityEvent-' + ontem.strftime("%Y-%m-%d") + '.json' , "w" ) as write:
-        json.dump( resposta_api , write )
+    #with open( 'activityEvent-' + ontem.strftime("%Y-%m-%d") + '.json' , "w" ) as write:
+    #    json.dump( resposta_api , write )   
+    with open('datasets.csv', 'w', newline='') as csvfile:
+        writer = resposta_api.DictWriter(csvfile, fieldnames=resposta_api[0].keys())
+        writer.writeheader()
+        for element in resposta_api:
+            for row in element:
+                writer.writerow(row)
         
 
 else:
     api_out = requests.get(url=url, headers=header)
     resposta2 = api_out.json()['value']
-    with open( 'groups-' + ontem.strftime("%Y-%m-%d") + '.json' , "w") as write:
-        json.dump( resposta2 , write )
+    with open('datasets.csv', 'w', newline='') as csvfile:
+        fieldnames = resposta2[0].keys()
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for element in resposta2:
+            for row in element:
+                writer.writerow(element)

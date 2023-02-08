@@ -1,0 +1,5 @@
+id,isReadOnly,isOnDedicatedCapacity,capacityMigrationStatus,type,state,hasWorkspaceLevelSettings ,name
+a74bb1b4-b700-4470-8f52-7d067d07e679,False,False,,PersonalGroup,Active,False,PersonalWorkspace Jorge Senna
+df9bb277-b239-4e60-b4f4-f8339d27a1c3,False,False,,Workspace,Active,False,Senna Consultant Service
+eb4ebc37-5641-4c2d-95d1-55ccdaeb985a,False,False,,PersonalGroup,Active,False,PersonalWorkspace Gael Senna
+f7aa3a92-770a-4337-9b88-2df80930b165,False,False,,PersonalGroup,Active,False,PersonalWorkspace api-power-bi
