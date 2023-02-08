@@ -7,5 +7,6 @@ Portal Admin: https://admin.microsoft.com/Adminportal/Home?source=applauncher#/u
 
 Links Docs Ok:
 
-https://www.datalineo.com/post/power-bi-rest-api-with-python-part-iii-azure-identity
+https://www.datalineo.com/post/power-bi-rest-api-with-python-and-microsoft-authentication-library-msal
 https://www.datalineo.com/post/power-bi-rest-api-with-python-and-msal-part-ii
+https://www.datalineo.com/post/power-bi-rest-api-with-python-part-iii-azure-identity
